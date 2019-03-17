@@ -1,0 +1,93 @@
+<scene>
+
+  <image>
+      300 300
+  </image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>30</numSamplesU>
+    <numSamplesV>30</numSamplesV>
+  </sampler>
+
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  <!--
+  <renderer type="KajiyaMediumPathTracer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  -->
+
+  <camera>
+    <eye>278.0 273.0 -800.0</eye>
+    <target>278.0 273.0 0</target>
+    <up>0 1 0</up>
+    <yFOV>40</yFOV>
+  </camera>
+
+  <material name="white" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.75 0.75 0.75</reflectance>
+    </brdf>
+  </material>
+  <material name="red" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.6 0.05 0.05</reflectance>
+    </brdf>
+  </material>
+  <material name="green" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.1 0.45 0.15</reflectance>
+    </brdf>
+  </material>
+  <material name="grey" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.4 0.4 0.4</reflectance>
+    </brdf>
+  </material>
+
+  <material name="light" type="LambertianEmitter">
+    <brdf type="Lambertian">
+      <reflectance>0.78 0.78 0.78</reflectance>
+    </brdf>
+    <radiance>600 600 600</radiance>
+  </material>
+
+  <surface type="Mesh">
+    <material ref="light" />
+    <frame>
+    1 0 0 0
+    0 1 0 500
+    0 0 1 0
+    </frame>
+    <data>cbox-light.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="white" />
+    <data>cbox-white.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="red" />
+    <data>cbox-red.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="green" />
+    <data>cbox-green.msh</data>
+  </surface>
+
+  <background type="Uniform">
+    <!--  <radiance>0.25 0.25 0.25</radiance> -->
+    <radiance>0 0 0</radiance>
+  </background>
+
+  <medium type="HomogeneousMedium">
+    <minPt>0 0 0</minPt>
+    <maxPt>556 548.8 559.2</maxPt>
+    <!--absorptionCoefficient>0.005 0.005 0.005</absorptionCoefficient-->
+    <scatteringCoefficient>0.001 0.001 0.001</scatteringCoefficient>
+  </medium>
+
+</scene>

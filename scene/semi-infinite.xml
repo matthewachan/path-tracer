@@ -1,0 +1,63 @@
+<scene>
+
+  <image>1 1</image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>300</numSamplesU>
+    <numSamplesV>300</numSamplesV>
+  </sampler>
+
+  <renderer type="KajiyaMediumPathTracer">
+    <depthLimit>20</depthLimit>
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  <!--
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  -->
+
+  <!-- camera at 60 degrees -->
+  <camera>
+    <eye>-866 500 0</eye>
+    <target>0 0 0</target>
+    <up>0 1 0</up>
+    <yFOV>0.01</yFOV>
+  </camera>
+
+  <!-- light source producing normal irradiance pi -->
+  <surface type="Sphere">
+    <material type="LambertianEmitter">
+      <radiance>100000000 100000000 100000000</radiance>
+    </material>
+    <center>866 500 0</center>
+    <radius>0.1</radius>
+  </surface>
+
+  <!--
+    This is a great big block of medium, 10^4 m.f.p thick.  Its
+    single-scattering reflectance from Seeliger's law should be
+    1 / (4 pi (mu_i + mu_r)), resulting in reflected radiance of
+    0.125 for our scene.  Its multiple-scattering reflectance
+    should be 1.000.
+  -->
+
+  <!-- Lambertian surface to confirm irradiance -->
+  <!--surface type="Triangle">
+    <material name="grey" type="Homogeneous">
+      <brdf type="Lambertian">
+	<reflectance>1 1 1</reflectance>
+      </brdf>
+    </material>
+    <v0>   0   0  500.0</v0>
+    <v1> 433.0 0 -250.0</v1>
+    <v2>-433.0 0 -250.0</v2>
+  </surface-->
+
+  <medium type="HomogeneousMedium">
+    <minPt>-100 -100 -100</minPt>
+    <maxPt>100 0 100</maxPt>
+    <absorptionCoefficient>0 0 0</absorptionCoefficient>
+    <scatteringCoefficient>10 10 10</scatteringCoefficient>
+  </medium>
+</scene>

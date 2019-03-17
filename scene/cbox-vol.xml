@@ -1,0 +1,109 @@
+<scene>
+
+  <image>
+      560 560
+  </image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>20</numSamplesU>
+    <numSamplesV>20</numSamplesV>
+  </sampler>
+
+  <!--
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="ProjSolidAngleIlluminator" />
+  </renderer>
+  <renderer type="MIPathTracer">
+    <depthLimit>5</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <WeightingFunc type="BalanceHeuristic"/>
+  </renderer>
+  <renderer type="DirectOnlyRenderer">
+    <directIlluminator type="MultipleIlluminator">
+        <WeightingFunc type="BalanceHeuristic"/>
+    </directIlluminator>    
+  </renderer>
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="MultipleIlluminator">
+        <WeightingFunc type="BalanceHeuristic"/>
+    </directIlluminator>    
+  </renderer>
+  -->
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+
+  <camera>
+    <eye>78.0 473.0 -800.0</eye>
+    <target>278.0 273.0 0</target>
+    <up>0 1 0</up>
+    <yFOV>45</yFOV>
+  </camera>
+
+  <material name="white" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0 0 0</reflectance>
+      <reflectance>0.75 0.75 0.75</reflectance>
+    </brdf>
+  </material>
+  <material name="red" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.6 0.05 0.05</reflectance>
+    </brdf>
+  </material>
+  <material name="green" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.1 0.45 0.15</reflectance>
+    </brdf>
+  </material>
+  <material name="grey" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.4 0.4 0.4</reflectance>
+    </brdf>
+  </material>
+
+  <material name="light" type="LambertianEmitter">
+    <brdf type="Lambertian">
+      <reflectance>0.78 0.78 0.78</reflectance>
+    </brdf>
+    <radiance>3 3 3</radiance>
+  </material>
+
+  <surface type="Mesh">
+    <material ref="light" />
+    <frame>
+    4 0 0 -834
+    0 1 0 0
+    0 0 4 -840
+    </frame>
+    <data>cbox-light.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="white" />
+    <data>cbox-noboxes.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="red" />
+    <data>cbox-red.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="green" />
+    <data>cbox-green.msh</data>
+  </surface>
+
+  <background type="Uniform">
+    <radiance>0.25 0.25 0.25</radiance>
+    <radiance>0 0 0</radiance>
+  </background>
+
+  <medium type="HomogeneousMedium">
+    <minPt>178 173 180</minPt>
+    <maxPt>378 373 380</maxPt>
+    <absorptionCoefficient>0.005 0.005 0.005</absorptionCoefficient>
+    <scatteringCoefficient>0.005 0.005 0.005</scatteringCoefficient>
+  </medium>
+
+</scene>

@@ -1,0 +1,102 @@
+<scene>
+
+  <image>
+    320 180
+  </image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>10</numSamplesU>
+    <numSamplesV>10</numSamplesV>
+  </sampler>
+<!--
+  <sampler type="IndependentSampler">
+    <numSamples>16</numSamples>
+  </sampler>
+-->
+  <renderer type="DirectOnlyRenderer">
+    <!-- directIlluminator type="LuminairesIlluminator" /-->
+    <!-- directIlluminator type="BRDFIlluminator" /-->
+    <directIlluminator type="MultipleIlluminator">
+      <WeightingFunc type="BalanceHeuristic"/>
+    </directIlluminator>
+  </renderer>
+
+  <camera>
+    <eye>10 6 8</eye>
+    <target>0 0.3 0</target>
+    <up>0 1 0</up>
+    <yFOV>15</yFOV>
+  </camera>
+
+  <material name="red" type="Homogeneous">
+    <brdf type="Microfacet">
+      <n>1.5</n>
+      <alpha_b>0.05</alpha_b>
+      <diffuseReflectance>0.8 0.3 0.1</diffuseReflectance>
+    </brdf>
+  </material>
+  <material name="green" type="Homogeneous">
+    <brdf type="Microfacet">
+      <n>1.5</n>
+      <alpha_b>0.05</alpha_b>
+      <diffuseReflectance>0.2 0.8 0.3</diffuseReflectance>
+    </brdf>
+  </material>
+  <material name="blue" type="Homogeneous">
+    <brdf type="Microfacet">
+      <n>1.5</n>
+      <alpha_b>0.05</alpha_b>
+      <diffuseReflectance>0.2 0.4 0.8</diffuseReflectance>
+    </brdf>
+  </material>
+  <material name="grey" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.4 0.4 0.4</reflectance>
+    </brdf>
+  </material>
+
+  <surface type="Sphere">
+    <material ref="red" />
+    <radius>0.8</radius>
+    <center>0 0.8 1</center>
+  </surface>
+  <surface type="Sphere">
+    <material ref="green" />
+    <radius>0.8</radius>
+    <center>0.8660 0.8 -0.5</center>
+  </surface>
+  <surface type="Sphere">
+    <material ref="blue" />
+    <radius>0.8</radius>
+    <center>-0.8660 0.8 -0.5</center>
+  </surface>
+
+  <surface type="Triangle">
+    <material ref="grey" />
+    <v0>0 0 5</v0>
+    <v1>4.330 0 -2.5</v1>
+    <v2>-4.330 0 -2.5</v2>
+  </surface>
+
+  <surface type="Triangle">
+    <material type="LambertianEmitter">
+      <radiance>5 5 5</radiance>
+    </material>
+    <v0>0 8 5</v0>
+    <v1>-4.330 8 -2.5</v1>
+    <v2>4.330 8 -2.5</v2>
+  </surface>
+
+  <surface type="Sphere">
+    <material type="LambertianEmitter">
+      <radiance>20 20 20</radiance>
+    </material>
+    <center>8 5 0</center>
+    <radius>1</radius>
+  </surface>
+
+  <background type="Uniform">
+    <radiance>0.7 0.7 0.7</radiance>
+  </background>
+
+</scene>

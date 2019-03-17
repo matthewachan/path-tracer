@@ -1,0 +1,82 @@
+<scene>
+
+  <!--
+      Test scene that illuminates a teapot from a large, distant
+      square that subtends the same angle as one face of a cube
+      map.  Scene consists of a blue teapot sitting on a gray
+      triangle.
+    -->
+
+  <image>
+    320 180
+  </image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>10</numSamplesU>
+    <numSamplesV>10</numSamplesV>
+  </sampler>
+<!--
+  <sampler type="IndependentSampler">
+    <numSamples>100</numSamples>
+  </sampler>
+-->
+  <renderer type="DirectOnlyRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+
+  <camera>
+    <eye>8 6 10</eye>
+    <target>0 0.5 0</target>
+    <up>0 1 0</up>
+    <yFOV>15</yFOV>
+  </camera>
+
+  <material name="blue" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.2 0.4 0.8</reflectance>
+    </brdf>
+  </material>
+  <material name="grey" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.4 0.4 0.4</reflectance>
+    </brdf>
+  </material>
+
+  <surface type="Mesh">
+    <material ref="blue" />
+    <frame>
+      0.1 0 0 0 
+      0 0 0.1 0
+      0 -0.1 0 0 
+    </frame>
+    <data>teapot.msh</data>
+  </surface>
+
+  <surface type="Triangle">
+    <material ref="grey" />
+    <v0>0 0 5</v0>
+    <v1>4.330 0 -2.5</v1>
+    <v2>-4.330 0 -2.5</v2>
+  </surface>
+
+  <!-- These two triangles amount to a large square that subtends
+       1/6 of the sphere. -->
+
+  <material name="luminaire" type="LambertianEmitter">
+    <radiance>1 1 1</radiance>
+  </material>
+
+  <surface type="Triangle">
+    <material ref="luminaire" />
+    <v0>1000 -1000 -1000</v0>
+    <v1>1000 -1000  1000</v1>
+    <v2>1000  1000  1000</v2>
+  </surface>
+  <surface type="Triangle">
+    <material ref="luminaire" />
+    <v0>1000 -1000 -1000</v0>
+    <v1>1000  1000  1000</v1>
+    <v2>1000  1000 -1000</v2>
+  </surface>
+
+</scene>

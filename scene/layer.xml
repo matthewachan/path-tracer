@@ -1,0 +1,63 @@
+<scene>
+
+  <image>1 1</image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>1000</numSamplesU>
+    <numSamplesV>1000</numSamplesV>
+  </sampler>
+
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+
+  <!-- camera at 60 degrees -->
+  <camera>
+    <eye>-866 500 0</eye>
+    <target>0 0 0</target>
+    <up>0 1 0</up>
+    <yFOV>0.01</yFOV>
+  </camera>
+
+  <!-- light source producing normal irradiance pi -->
+  <surface type="Sphere">
+    <material type="LambertianEmitter">
+      <radiance>1000000 1000000 1000000</radiance>
+    </material>
+    <center>866 500 0</center>
+    <radius>1</radius>
+  </surface>
+
+  <!-- Lambertian surface to confirm irradiance -->
+  <!--surface type="Triangle">
+    <material name="grey" type="Homogeneous">
+      <brdf type="Lambertian">
+	<reflectance>1 1 1</reflectance>
+      </brdf>
+    </material>
+    <v0>   0   0  500.0</v0>
+    <v1> 433.0 0 -250.0</v1>
+    <v2>-433.0 0 -250.0</v2>
+  </surface-->
+
+  <!--
+    This is a slab of medium one unit thick.  By a simple
+    derivation from Chandrasekhar (you can find it in Hanrahan
+    & Krueger 93) the diffuse reflectance of such a layer,
+    considering only single scattering, is:
+
+    (al/4pi) (1 - exp(-sg_t d(1/mu_i + 1/mu_r))) / (mu_i + mu_r)
+   
+    where al is the albedo; sg_t is the attenuation coeff; d is
+    the layer thickness; mu_{i,r} are the incident and exitant
+    cosines.  For this setup we have  mu_i = mu_r = 0.5 and d = 1.
+    This leads to reflectance 0.0550463, radiance 0.0864665.
+  -->
+
+  <medium type="HomogeneousMedium">
+    <minPt>-100 -1 -100</minPt>
+    <maxPt>100 0 100</maxPt>
+    <absorptionCoefficient>0.1 0.1 0.1</absorptionCoefficient>
+    <scatteringCoefficient>0.4 0.4 0.4</scatteringCoefficient>
+  </medium>
+</scene>

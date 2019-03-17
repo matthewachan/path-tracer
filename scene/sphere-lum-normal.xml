@@ -1,0 +1,66 @@
+<scene>
+
+  <!--
+      Test scene that illuminates a rectangle from a spherical
+      luminaire positioned along the surface normal.  The
+      luminaire is at distance r = 5 and has radius R = 1 and
+      radiance L = 20.  From  our first homework we know that the
+      irradiance is pi * L * R^2 / r^2.  The BRDF value of the
+      surface is 1/(2 pi) (50% reflective) so the reflected
+      radiance is 
+
+         L_r = 0.5 * L * R^2 / r^2
+
+      which works out in our case to 10/25 = 0.4.  I recommend
+      checking this by having your program spit out the number
+      when it notices the image has only one pixel.
+    -->
+
+  <image>
+    1 1
+  </image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>1000</numSamplesU>
+    <numSamplesV>1000</numSamplesV>
+  </sampler>
+
+  <!--sampler type="IndependentSampler">
+    <numSamples>1000000</numSamples>
+  </sampler-->
+
+  <renderer type="DirectOnlyRenderer">
+    <!--directIlluminator type="ProjSolidAngleIlluminator" /-->
+    <directIlluminator type="MultipleIlluminator" />
+    <!--directIlluminator type="LuminairesIlluminator" /-->
+  </renderer>
+
+  <camera>
+    <eye>0 1 0</eye>
+    <target>0 0 0</target>
+    <up>0 0 1</up>
+    <yFOV>0.1</yFOV>
+  </camera>
+
+  <material name="grey" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.5 0.5 0.5</reflectance>
+    </brdf>
+  </material>
+
+  <surface type="Triangle">
+    <material ref="grey" />
+    <v0>0 0 5</v0>
+    <v1>4.330 0 -2.5</v1>
+    <v2>-4.330 0 -2.5</v2>
+  </surface>
+
+  <surface type="Sphere">
+    <material type="LambertianEmitter">
+      <radiance>20 20 20</radiance>
+    </material>
+    <center>0 5 0</center>
+    <radius>1</radius>
+  </surface>
+
+</scene>

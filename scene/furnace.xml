@@ -1,0 +1,68 @@
+<scene>
+
+  <image>560 560</image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>3</numSamplesU>
+    <numSamplesV>3</numSamplesV>
+  </sampler>
+
+  <!--
+  <renderer type="DirectOnlyRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  -->
+  <renderer type="BruteForcePathTracer">
+    <depthLimit>10</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+
+  <camera>
+    <eye>0.1 0.1 0.1</eye>
+    <target>1 1 1</target>
+    <up>0 1 0</up>
+    <yFOV>60</yFOV>
+  </camera>
+
+  <material name="gray" type="LambertianEmitter">
+    <brdf type="Lambertian">
+      <reflectance>0.5 0.5 0.5</reflectance>
+    </brdf>
+    <radiance>0.4 0.4 0.4</radiance>
+  </material>
+
+  <!--surface type="Sphere">
+    <material type="LambertianEmitter">
+      <radiance>20 20 20</radiance>
+    </material>
+    <center>0.5 0.5 0.5</center>
+    <radius>0.05</radius>
+  </surface-->
+
+  <surface type="Triangle"><material ref="gray" />
+    <v0>0 0 0</v0><v1>1 0 0</v1><v2>0 1 0</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>1 1 0</v0><v1>0 1 0</v1><v2>1 0 0</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>0 0 0</v0><v1>0 1 0</v1><v2>0 0 1</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>0 1 1</v0><v1>0 0 1</v1><v2>0 1 0</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>0 0 0</v0><v1>0 0 1</v1><v2>1 0 0</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>1 0 1</v0><v1>1 0 0</v1><v2>0 0 1</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>1 1 1</v0><v1>1 0 1</v1><v2>0 1 1</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>0 0 1</v0><v1>0 1 1</v1><v2>1 0 1</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>1 1 1</v0><v1>1 1 0</v1><v2>1 0 1</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>1 0 0</v0><v1>1 0 1</v1><v2>1 1 0</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>1 1 1</v0><v1>0 1 1</v1><v2>1 1 0</v2></surface>
+  <surface type="Triangle"><material ref="gray" />
+    <v0>0 1 0</v0><v1>1 1 0</v1><v2>0 1 1</v2></surface>
+
+</scene>

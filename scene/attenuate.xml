@@ -1,0 +1,49 @@
+<scene>
+
+  <image>1 1</image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>100</numSamplesU>
+    <numSamplesV>100</numSamplesV>
+  </sampler>
+  <!--
+  <renderer type="KajiyaMediumPathTracer">
+    <depthLimit>10</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  -->
+  <renderer type="DirectOnlyMediumRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+
+  <!-- camera looking straight down -->
+  <camera>
+    <eye>0 500 0</eye>
+    <!--eye>-866 500 0</eye-->  <!-- for 60 degrees -->
+    <target>0 0 0</target>
+    <up>0 0 1</up>
+    <yFOV>0.1</yFOV>
+  </camera>
+
+  <!-- backdrop producing unit irradiance -->
+  <surface type="Triangle">
+    <material type="LambertianEmitter">
+      <radiance>1 1 1</radiance>
+    </material>
+    <v0>   0   -1  500.0</v0>
+    <v1> 433.0 -1 -250.0</v1>
+    <v2>-433.0 -1 -250.0</v2>
+  </surface>
+
+  <!--
+    A unit-thickness layer of absorbing medium.
+    Radiance should be exp(-1/cos theta)
+  -->
+
+  <medium type="HomogeneousMedium">
+    <minPt>-100 -1 -100</minPt>
+    <maxPt>100 0 100</maxPt>
+    <absorptionCoefficient>1 1 1</absorptionCoefficient>
+  </medium>
+</scene>
