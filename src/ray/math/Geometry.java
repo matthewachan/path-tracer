@@ -27,6 +27,11 @@ public class Geometry {
 		// 
 		// Implement here the sampling of projected solid angle 
 		// as we discussed in class
+		outDir.z = seed.x;
+		double phi = 2 * Math.PI * seed.y;
+		double xyRad = Math.sqrt(1 - outDir.z*outDir.z);
+		outDir.x = xyRad * Math.cos(phi);
+		outDir.y = xyRad * Math.sin(phi);
 	}
 
 	/**
