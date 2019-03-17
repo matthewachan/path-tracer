@@ -16,6 +16,7 @@ public class Geometry {
 		// 
 		// Implement here the sampling of projected solid angle 
 		// as we discussed in class
+		
 	}
 	
 	/**
@@ -27,9 +28,17 @@ public class Geometry {
 		// 
 		// Implement here the sampling of projected solid angle 
 		// as we discussed in class
+
+		// Sample between 0 and 1 for z direction
 		outDir.z = seed.x;
+		
+		// Angle phi can lie anywhere on a circle
 		double phi = 2 * Math.PI * seed.y;
+
+		// Compute sin(theta)
 		double xyRad = Math.sqrt(1 - outDir.z*outDir.z);
+
+		// Assign x and y directions
 		outDir.x = xyRad * Math.cos(phi);
 		outDir.y = xyRad * Math.sin(phi);
 	}
