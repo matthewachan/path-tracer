@@ -1,6 +1,10 @@
 # Compiled class file
 *.class
 
+# Swap files
+*.swp
+*.swo
+
 # Log file
 *.log
 
