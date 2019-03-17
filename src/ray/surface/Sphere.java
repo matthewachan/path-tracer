@@ -125,8 +125,40 @@ public class Sphere extends Surface {
     	//       and certain rendering algorithm relies on the length. Therefore, here a ray is a 
     	//       segment rather than a infinite line. You need to test if the segment is intersect
     	//       with the sphere. Look at ray.misc.Ray.java to see the information provided by a ray.
-    	
-        return false;
+	
+	Vector3 rayDir = new Vector3(ray.direction);
+	Vector3 rayOrigin = new Vector3(ray.origin);
+	
+	// Compute vector from ray origin to sphere center
+	Vector3 toOrigin = new Vector3(center);
+	toOrigin.sub(rayOrigin);
+	
+	// Compute length of the projection of toOrigin on the ray
+	double magnitude = toOrigin.dot(ray.direction);
+	Vector3 proj = new Vector3(rayDir.x * magnitude, rayDir.y * magnitude, rayDir.z * magnitude);
+
+	// Compute vector between sphere center and ray intersection
+	Vector3 v = new Vector3(toOrigin);
+	v.sub(proj);
+	
+	// Check if intersection occurs
+	if (v.squaredLength() > radius * radius)
+		return false;
+
+	
+	// Fill out the intersection record
+	outRecord.surface = this;
+	outRecord.t = magnitude;
+	outRecord.frame.o.set(proj);
+
+	// Set the coordinate frame's up axis to align with the surface's normal
+	v.normalize();
+	outRecord.frame.w.set(v);
+
+	// Initialize the u and v axes using the w axis
+	outRecord.frame.initFromW();
+	
+	return true;
     }
     
     /**
