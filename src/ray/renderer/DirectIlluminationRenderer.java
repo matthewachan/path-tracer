@@ -7,6 +7,9 @@ import ray.misc.Scene;
 import ray.sampling.SampleGenerator;
 import ray.misc.IntersectionRecord;
 
+import ray.material.Material;
+import ray.misc.LuminaireSamplingRecord;
+
 /**
  * A renderer that computes radiance due to emitted and directly reflected light only.
  * 
@@ -46,6 +49,27 @@ public class DirectIlluminationRenderer implements Renderer {
     	// 2) direct reflected radiance from other lights. This is by implementing the function
     	//    ProjSolidAngleIlluminator.directIlluminaiton(...), and call direct.directIllumination(...) in this
     	//    function here.
+	
+	IntersectionRecord iRec = new IntersectionRecord();
+
+	// Check if the camera ray intersects an object
+	if (scene.getFirstIntersection(iRec, ray)) {
+		Material surfaceMat = iRec.surface.getMaterial();
+
+		// Check if the intersected surface emits light
+		if (surfaceMat.isEmitter()) {
+			// Compute the radiance of the emitted light
+			LuminaireSamplingRecord lRec = new LuminaireSamplingRecord();
+			lRec.set(iRec);
+			surfaceMat.emittedRadiance(lRec, outColor);
+		}
+
+		// Compute reflected radiance, using Monte Carlo Integration to compute the integral
+
+	}
+
+	// If camera ray doesn't intersect, pixel color is based on the scene background
+        scene.getBackground().evaluate(ray.direction, outColor);
     }
 
     
@@ -60,5 +84,8 @@ public class DirectIlluminationRenderer implements Renderer {
         // If material is emitting, query it for emission in the relevant direction.
         // If not, the emission is zero.
     	// This function should be called in the rayRadiance(...) method above
+	
+	
+	outColor.set(0.);
     }
 }

@@ -6,6 +6,7 @@ import ray.misc.Color;
 import ray.misc.IntersectionRecord;
 import ray.misc.Scene;
 
+import ray.math.Geometry;
 
 /**
  * This class computes direct illumination at a surface by the simplest possible approach: it estimates
@@ -41,6 +42,15 @@ public class ProjSolidAngleIlluminator extends DirectIlluminator {
         //    pdf is constant 1/pi
     	// 2. Find incident radiance from that direction
     	// 3. Estimate reflected radiance using brdf * radiance / pdf = pi * brdf * radiance
+	
+	// Sample on a hemisphere wrt. a projected solid angle
+	Geometry.squareToPSAHemisphere(seed, incDir);
+	// Get intersection btwn incident direction with objects in the scene
+	// Compute the emitted radiance of the intersected surface
+	// If no surface intersected, compute radiance of background
+	
+	// Estimate integral using Monte Carlo Integration
+	
     }
     
 }
