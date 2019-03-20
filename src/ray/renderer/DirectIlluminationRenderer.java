@@ -9,6 +9,9 @@ import ray.misc.IntersectionRecord;
 
 import ray.material.Material;
 import ray.misc.LuminaireSamplingRecord;
+import ray.renderer.ProjSolidAngleIlluminator;
+import ray.renderer.DirectIlluminator;
+import ray.math.Point2;
 
 /**
  * A renderer that computes radiance due to emitted and directly reflected light only.
@@ -51,21 +54,38 @@ public class DirectIlluminationRenderer implements Renderer {
     	//    function here.
 	
 	IntersectionRecord iRec = new IntersectionRecord();
+	Color emittedRadiance = new Color();
+	Color reflectedRadiance = new Color();
 
-	// Check if the camera ray intersects an object
+	// Check if the camera ray intersects an object in the scene
 	if (scene.getFirstIntersection(iRec, ray)) {
-		Material surfaceMat = iRec.surface.getMaterial();
 
 		// Check if the intersected surface emits light
+		Material surfaceMat = iRec.surface.getMaterial();
+
 		if (surfaceMat.isEmitter()) {
+
 			// Compute the radiance of the emitted light
 			LuminaireSamplingRecord lRec = new LuminaireSamplingRecord();
-			lRec.set(iRec);
-			surfaceMat.emittedRadiance(lRec, outColor);
+			lRec.frame = iRec.frame;
+			lRec.emitDir.sub(ray.origin, lRec.frame.o);
+			surfaceMat.emittedRadiance(lRec, emittedRadiance);
 		}
 
 		// Compute reflected radiance, using Monte Carlo Integration to compute the integral
+		Vector3 incDir = new Vector3();
+		Vector3 outDir = new Vector3();	// direction towards the camera (reflected dir)
+		outDir.sub(ray.origin, iRec.frame.o);
 
+		Point2 directSeed = new Point2();
+		sampler.sample(1, sampleIndex, directSeed);     // this random variable is for incident direction
+
+		DirectIlluminator illuminator = new ProjSolidAngleIlluminator();
+		illuminator.directIllumination(scene, incDir, outDir, iRec, directSeed, reflectedRadiance);
+
+		outColor.set(emittedRadiance);
+		outColor.add(reflectedRadiance);
+		return;
 	}
 
 	// If camera ray doesn't intersect, pixel color is based on the scene background

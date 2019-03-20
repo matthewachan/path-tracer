@@ -7,6 +7,10 @@ import ray.misc.IntersectionRecord;
 import ray.misc.Scene;
 
 import ray.math.Geometry;
+import ray.brdf.BRDF;
+import ray.material.Material;
+import ray.misc.Ray;
+import ray.misc.LuminaireSamplingRecord;
 
 /**
  * This class computes direct illumination at a surface by the simplest possible approach: it estimates
@@ -42,15 +46,48 @@ public class ProjSolidAngleIlluminator extends DirectIlluminator {
         //    pdf is constant 1/pi
     	// 2. Find incident radiance from that direction
     	// 3. Estimate reflected radiance using brdf * radiance / pdf = pi * brdf * radiance
+
+
+	// Get BRDF at surface intersection
+	BRDF brdf = iRec.surface.getMaterial().getBRDF(iRec);
+	Color brdfColor = new Color();
+
+	// Sample a ray uniformly over the projected solid angle
+	brdf.generate(iRec.frame, outDir, incDir, seed, brdfColor);
+	brdf.evaluate(iRec.frame, incDir, outDir, brdfColor);
+
+	// Get the probability density function
+	double pdf = brdf.pdf(iRec.frame, outDir, incDir);
 	
-	// Sample on a hemisphere wrt. a projected solid angle
-	Geometry.squareToPSAHemisphere(seed, incDir);
-	// Get intersection btwn incident direction with objects in the scene
+	// Find surface intersections with the incident direction
+	Ray incRay = new Ray(iRec.frame.o, incDir);
+	IntersectionRecord incRecord = new IntersectionRecord();
+
 	// Compute the emitted radiance of the intersected surface
+	Color radiance = new Color();	
+
+	if (scene.getFirstIntersection(incRecord, incRay)) {
+
+		Material surfaceMat = incRecord.surface.getMaterial();
+		if (surfaceMat.isEmitter()) {
+
+			LuminaireSamplingRecord lRec = new LuminaireSamplingRecord();
+			lRec.frame = incRecord.frame;
+			// Compute iRec.o - lRec.o and store the result in emitDir
+			lRec.emitDir.sub(iRec.frame.o, lRec.frame.o);
+
+			surfaceMat.emittedRadiance(lRec, radiance);
+		}
+
+	}
+
 	// If no surface intersected, compute radiance of background
-	
-	// Estimate integral using Monte Carlo Integration
-	
+	else
+		scene.getBackground().evaluate(incRay.direction, radiance);
+
+
+	outColor.set(brdfColor);
+	outColor.scale(radiance);
+	outColor.scale(1 / pdf);
     }
-    
 }
