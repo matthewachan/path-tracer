@@ -47,47 +47,58 @@ public class ProjSolidAngleIlluminator extends DirectIlluminator {
     	// 2. Find incident radiance from that direction
     	// 3. Estimate reflected radiance using brdf * radiance / pdf = pi * brdf * radiance
 
-
-	// Get BRDF at surface intersection
-	BRDF brdf = iRec.surface.getMaterial().getBRDF(iRec);
 	Color brdfColor = new Color();
+	Color radiance = new Color();	
 
-	// Sample a ray uniformly over the projected solid angle
+	BRDF brdf = iRec.surface.getMaterial().getBRDF(iRec);
+
+	// Sample random incident direction
 	brdf.generate(iRec.frame, outDir, incDir, seed, brdfColor);
+	incDir.normalize();
+	
+	// Compute the reflection about the surface normal
+	// Formula: v_ref = v_inc - 2 * (v_inc.dot(normal)) * normal
+	outDir.set(incDir);
+	Vector3 nhat = new Vector3(iRec.frame.w);
+	double dot = nhat.dot(incDir);
+	nhat.scale(2 * dot);
+	outDir.sub(nhat);
+	outDir.normalize();
+
+	// Evaluate the BRDF
 	brdf.evaluate(iRec.frame, incDir, outDir, brdfColor);
 
-	// Get the probability density function
-	double pdf = brdf.pdf(iRec.frame, outDir, incDir);
-	
 	// Find surface intersections with the incident direction
 	Ray incRay = new Ray(iRec.frame.o, incDir);
+	incRay.makeOffsetRay();
+
 	IntersectionRecord incRecord = new IntersectionRecord();
 
 	// Compute the emitted radiance of the intersected surface
-	Color radiance = new Color();	
-
 	if (scene.getFirstIntersection(incRecord, incRay)) {
 
 		Material surfaceMat = incRecord.surface.getMaterial();
 		if (surfaceMat.isEmitter()) {
 
 			LuminaireSamplingRecord lRec = new LuminaireSamplingRecord();
-			lRec.frame = incRecord.frame;
-			// Compute iRec.o - lRec.o and store the result in emitDir
-			lRec.emitDir.sub(iRec.frame.o, lRec.frame.o);
+			lRec.set(incRecord);
+			lRec.emitDir.set(incDir);
+			lRec.emitDir.scale(-1);
+
 
 			surfaceMat.emittedRadiance(lRec, radiance);
+			// Scale by the amount of emitted light projected on the surface normal
+			radiance.scale(iRec.frame.w.dot(incDir));
+
+			outColor.set(brdfColor);
+			outColor.scale(radiance);
+			outColor.scale(Math.PI);
+			return;
 		}
 
 	}
 
-	// If no surface intersected, compute radiance of background
-	else
-		scene.getBackground().evaluate(incRay.direction, radiance);
-
-
-	outColor.set(brdfColor);
-	outColor.scale(radiance);
-	outColor.scale(1 / pdf);
+	// If no emitter is intersected, set the color to 0
+	outColor.set(0.);
     }
 }
