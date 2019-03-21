@@ -65,7 +65,7 @@ public class DirectIlluminationRenderer implements Renderer {
 
 		// Compute reflected radiance
 		Vector3 incDir = new Vector3();
-		Vector3 outDir = new Vector3();
+		Vector3 outDir = new Vector3(ray.direction);
 
 		Point2 directSeed = new Point2();
 		sampler.sample(1, sampleIndex, directSeed);     // this random variable is for incident direction
@@ -78,7 +78,7 @@ public class DirectIlluminationRenderer implements Renderer {
 		return;
 	}
 
-	// If camera ray doesn't intersect, pixel color is based on the scene background
+	// If camera ray doesn't intersect a surface, pixel color is based on the scene background
         scene.getBackground().evaluate(ray.direction, outColor);
     }
 

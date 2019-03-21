@@ -58,15 +58,19 @@ public class ProjSolidAngleIlluminator extends DirectIlluminator {
 	
 	// Compute the reflection about the surface normal
 	// Formula: v_ref = v_inc - 2 * (v_inc.dot(normal)) * normal
-	outDir.set(incDir);
+	Vector3 reflDir = new Vector3();
+	reflDir.set(incDir);
 	Vector3 nhat = new Vector3(iRec.frame.w);
 	double dot = nhat.dot(incDir);
 	nhat.scale(2 * dot);
-	outDir.sub(nhat);
-	outDir.normalize();
+	reflDir.sub(nhat);
+	reflDir.normalize();
 
 	// Evaluate the BRDF
-	brdf.evaluate(iRec.frame, incDir, outDir, brdfColor);
+	brdf.evaluate(iRec.frame, incDir, reflDir, brdfColor);
+
+	// Compute the probability density function
+	double pdf = brdf.pdf(iRec.frame, incDir, outDir);
 
 	// Find surface intersections with the incident direction
 	Ray incRay = new Ray(iRec.frame.o, incDir);
