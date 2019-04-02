@@ -9,10 +9,22 @@
     <numSamplesV>150</numSamplesV>
   </sampler>
 
-  <renderer type="BruteForcePathTracer">
-    <depthLimit>5</depthLimit>
-    <backgroundIllumination>1</backgroundIllumination>
+  <!-- <renderer type="AmbientOcclusion"> -->
+  <!--   <length>0.2</length> -->
+  <!-- </renderer> -->
+
+  <renderer type="DirectIlluminationRenderer">
   </renderer>
+
+  <!-- <renderer type="BruteForcePathTracer"> -->
+  <!--   <depthLimit>5</depthLimit> -->
+  <!--   <backgroundIllumination>1</backgroundIllumination> -->
+  <!-- </renderer> -->
+
+  <!-- <renderer type="BruteForceRRPathTracer"> -->
+  <!--   <survivalProbability>0.75</survivalProbability> -->
+  <!--   <backgroundIllumination>1</backgroundIllumination> -->
+  <!-- </renderer> -->
 
   <camera>
     <eye>0 -3 1</eye>

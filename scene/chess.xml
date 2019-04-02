@@ -16,10 +16,15 @@
   <!-- <renderer type="DirectIlluminationRenderer"> -->
   <!-- </renderer> -->
 
-  <renderer type="BruteForceRRPathTracer">
-    <survivalProbability>0.75</survivalProbability>
+  <renderer type="BruteForcePathTracer">
+    <depthLimit>5</depthLimit>
     <backgroundIllumination>1</backgroundIllumination>
   </renderer>
+
+  <!-- <renderer type="BruteForceRRPathTracer"> -->
+  <!--   <survivalProbability>0.75</survivalProbability> -->
+  <!--   <backgroundIllumination>1</backgroundIllumination> -->
+  <!-- </renderer> -->
 
   <camera>
     <eye>0 -2 2</eye>
@@ -35,11 +40,6 @@
     </brdf>
     <radiance>60 60 60</radiance>
   </material>
-
-  <surface type="Mesh">
-    <material ref="light" />
-    <data>light.msh</data>
-  </surface>
 
   <material name="white" type="Homogeneous">
     <brdf type="Lambertian">
@@ -58,6 +58,12 @@
       <reflectance>0.05 0.05 0.05</reflectance>
     </brdf>
   </material>
+
+  <surface type="Mesh">
+    <material ref="light" />
+    <data>light.msh</data>
+  </surface>
+
 
   <!-- Chessboard tiles -->
   <surface type="Mesh">
