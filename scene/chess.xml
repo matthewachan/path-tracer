@@ -1,0 +1,140 @@
+<scene>
+
+  <image>
+    100 100
+  </image>
+
+  <sampler type="JitteredSampler">
+    <numSamplesU>10</numSamplesU>
+    <numSamplesV>10</numSamplesV>
+  </sampler>
+
+  <!--
+  <renderer type="DirectOnlyRenderer">
+    <directIlluminator type="MultipleIlluminator">
+        <WeightingFunc type="BalanceHeuristic"/>
+    </directIlluminator>    
+  </renderer>
+  <renderer type="MIPathTracer">
+    <depthLimit>5</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <WeightingFunc type="BalanceHeuristic"/>
+  </renderer>
+  <renderer type="DirectOnlyRenderer">
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  <renderer type="BruteForcePathTracer">
+    <depthLimit>5</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  <renderer type="MIPathTracer">
+    <depthLimit>5</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <WeightingFunc type="BalanceHeuristic"/>
+  </renderer>
+  -->
+  <!--
+  <renderer type="KajiyaPathTracer">
+    <depthLimit>5</depthLimit>
+    <backgroundIllumination>1</backgroundIllumination>
+    <directIlluminator type="LuminairesIlluminator" />
+  </renderer>
+  -->
+  <!-- <renderer type="AmbientOcclusion"> -->
+  <!--   <length>0.2</length> -->
+  <!-- </renderer> -->
+  <!-- <renderer type="DirectIlluminationRenderer"> -->
+  <!-- </renderer> -->
+  <renderer type="BruteForceRRPathTracer">
+    <survivalProbability>0.75</survivalProbability>
+    <backgroundIllumination>1</backgroundIllumination>
+  </renderer>
+
+  <camera>
+    <eye>0 -2 1.5</eye>
+    <target>0 0 0</target>
+    <up>0 0 1</up>
+    <yFOV>40</yFOV>
+  </camera>
+
+  <material name="white" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.75 0.75 0.75</reflectance>
+    </brdf>
+  </material>
+  <material name="red" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.6 0.05 0.05</reflectance>
+    </brdf>
+  </material>
+  <material name="green" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0.1 0.45 0.15</reflectance>
+    </brdf>
+  </material>
+
+  <material name="black" type="Homogeneous">
+    <brdf type="Lambertian">
+      <reflectance>0 0 0</reflectance>
+    </brdf>
+  </material>
+
+  <material name="light" type="LambertianEmitter">
+    <brdf type="Lambertian">
+      <reflectance>0.78 0.78 0.78</reflectance>
+    </brdf>
+    <radiance>60 60 60</radiance>
+  </material>
+
+  <surface type="Mesh">
+    <material ref="light" />
+    <data>light.msh</data>
+  </surface>
+
+  <surface type="Sphere">
+    <material type="LambertianEmitter">
+      <radiance>20 20 20</radiance>
+    </material>
+    <center>2 0 3</center>
+    <radius>1</radius>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="white" />
+    <data>tile1.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="black" />
+    <data>tile2.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="black" />
+    <data>chess1.msh</data>
+  </surface>
+  <surface type="Mesh">
+    <material ref="white" />
+    <data>chess2.msh</data>
+  </surface>
+  <surface type="Mesh">
+    <material ref="white" />
+    <data>empty.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="red" />
+    <data>left.msh</data>
+  </surface>
+
+  <surface type="Mesh">
+    <material ref="green" />
+    <data>right.msh</data>
+  </surface>
+
+  <background type="Uniform">
+    <radiance>0.25 0.25 0.25</radiance>
+  </background>
+
+</scene>
