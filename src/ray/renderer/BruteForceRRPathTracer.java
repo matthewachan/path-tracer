@@ -91,7 +91,7 @@ public class BruteForceRRPathTracer extends PathTracer {
 		Vector3 incDir = new Vector3();
 
 		Point2 seed = new Point2();
-		sampler.sample(1, sampleIndex, seed);     // this random variable is for incident direction
+		sampler.sample(level, sampleIndex, seed);     // this random variable is for incident direction
 
 		brdf.generate(iRec.frame, outDir, incDir, seed, brdfColor);
 		incDir.normalize();
