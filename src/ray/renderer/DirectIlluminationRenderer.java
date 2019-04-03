@@ -68,7 +68,7 @@ public class DirectIlluminationRenderer implements Renderer {
 		Vector3 outDir = new Vector3(ray.direction);
 
 		Point2 directSeed = new Point2();
-		sampler.sample(sampleIndex, 1, directSeed);     // this random variable is for incident direction
+		sampler.sample(1, sampleIndex, directSeed);     // this random variable is for incident direction
 
 		direct.directIllumination(scene, incDir, outDir, iRec, directSeed, reflectedRadiance);
 
