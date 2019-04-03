@@ -127,33 +127,68 @@ public class Sphere extends Surface {
     	//       with the sphere. Look at ray.misc.Ray.java to see the information provided by a ray.
 	
 	Vector3 rayDir = new Vector3(ray.direction);
+	rayDir.normalize();
+
 	Vector3 rayOrigin = new Vector3(ray.origin);
 	
 	// Compute vector from ray origin to sphere center
-	Vector3 toOrigin = new Vector3(center);
-	toOrigin.sub(rayOrigin);
+	Vector3 L = new Vector3(this.center);
+	L.sub(rayOrigin);
 	
-	// Compute length of the projection of toOrigin on the ray
-	double magnitude = toOrigin.dot(ray.direction);
-	Vector3 proj = new Vector3(rayDir.x * magnitude, rayDir.y * magnitude, rayDir.z * magnitude);
+	// Project L onto the ray
+	double magnitude = L.dot(ray.direction);
 
-	// Compute vector between sphere center and ray intersection
-	Vector3 v = new Vector3(toOrigin);
-	v.sub(proj);
+	if (magnitude < 0)
+		return false;
 	
-	// Check if intersection occurs
-	if (v.squaredLength() > radius * radius)
+	Vector3 proj = new Vector3(rayDir);
+	proj.scale(magnitude);
+	
+	
+	// Compute length of remaining side
+	double c = L.length();
+	double a = proj.length();
+	double b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+
+	if (b > this.radius)
 		return false;
 
-	
-	// Fill out the intersection record
-	outRecord.surface = this;
-	outRecord.t = magnitude;
-	outRecord.frame.o.set(proj);
 
-	// Set the coordinate frame's up axis to align with the surface's normal
-	v.normalize();
-	outRecord.frame.w.set(v);
+	// Pythagorean theorem again
+	double adj = Math.sqrt(Math.pow(this.radius, 2) - Math.pow(b, 2));
+
+
+	Vector3 intersect = new Vector3(proj);
+	double newLength = intersect.length() - adj;
+	intersect.normalize();
+	intersect.scale(newLength);
+
+	Vector3 t = new Vector3(ray.origin);
+	t.add(intersect);
+	
+// 	// Compute vector between sphere center and ray intersection
+// 	Vector3 v = new Vector3(toOrigin);
+// 	v.sub(proj);
+	
+// 	// Check if intersection occurs
+// 	if (v.squaredLength() > radius * radius)
+// 		return false;
+
+	
+// 	// Fill out the intersection record
+	outRecord.surface = this;
+	outRecord.t = intersect.length();
+	outRecord.frame.o.set(t);
+	
+	Vector3 normal = new Vector3(intersect);
+	normal.sub(L);
+	normal.normalize();
+
+
+// 	// Set the coordinate frame's up axis to align with the surface's normal
+// 	v.normalize();
+// 	v.scale(-1);
+	outRecord.frame.w.set(normal);
 
 	// Initialize the u and v axes using the w axis
 	outRecord.frame.initFromW();
