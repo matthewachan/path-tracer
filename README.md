@@ -3,8 +3,33 @@
 
 ## Gallery
 
+### Dragon
+
+![](scene/dragon_ambient.png)
+![](scene/dragon_direct.png)
+![](scene/dragon_brute.png)
 ![](scene/dragon_rr.png)
+
+### Chess
+
 ![](scene/chess_ambient.png)
+![](scene/chess_direct.png)
+![](scene/chess_brute.png)
+![](scene/chess_rr.png)
+
+### Cornell Box
+
+![](scene/cbox-direct-ambient.png)
+![](scene/cbox-direct-direct.png)
+![](scene/cbox-direct-brute.png)
+![](scene/cbox-direct-rr.png)
+
+### Three Spheres
+
+![](scene/three-spheres-ambient.png)
+![](scene/three-spheres-direct.png)
+![](scene/three-spheres-brute.png)
+![](scene/three-spheres-rr.png)
 
 ## Usage
 
