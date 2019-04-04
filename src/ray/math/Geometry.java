@@ -27,8 +27,8 @@ public class Geometry {
 		double xyRad = Math.sqrt(1 - r * r);
 
 		outDir.x = r * Math.cos(phi);
-		outDir.y = xyRad;
-		outDir.z = r * Math.sin(phi);
+		outDir.z = xyRad;
+		outDir.y = r * Math.sin(phi);
 	}
 	
 	/**
