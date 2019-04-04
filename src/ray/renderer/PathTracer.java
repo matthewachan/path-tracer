@@ -50,12 +50,8 @@ public abstract class PathTracer extends DirectIlluminationRenderer {
 		// Here you need to use Geometry.squareToPSAHemisphere that you implemented earlier in this function
 
 		// Hard stop on recursion depth
-		if (level > depthLimit)
-			return;
-
-		// Increment the recursion level
-		level += 1;
-
+		// if (level > depthLimit)
+		// 	return;
 
 		// Sample random incident direction
 		BRDF brdf = iRec.surface.getMaterial().getBRDF(iRec);
@@ -63,7 +59,11 @@ public abstract class PathTracer extends DirectIlluminationRenderer {
 		Vector3 incDir = new Vector3();
 
 		Point2 seed = new Point2();
-		sampler.sample(1, sampleIndex, seed);     // this random variable is for incident direction
+		sampler.sample(sampleIndex,level, seed);     // this random variable is for incident direction
+
+		// Increment the recursion level
+		level += 1;
+
 
 		brdf.generate(iRec.frame, outDir, incDir, seed, brdfColor);
 		incDir.normalize();
