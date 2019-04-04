@@ -53,6 +53,9 @@ public abstract class PathTracer extends DirectIlluminationRenderer {
 		if (level > depthLimit)
 			return;
 
+		// Increment the recursion level
+		level += 1;
+
 
 		// Sample random incident direction
 		BRDF brdf = iRec.surface.getMaterial().getBRDF(iRec);
@@ -60,7 +63,7 @@ public abstract class PathTracer extends DirectIlluminationRenderer {
 		Vector3 incDir = new Vector3();
 
 		Point2 seed = new Point2();
-		sampler.sample(level, sampleIndex, seed);     // this random variable is for incident direction
+		sampler.sample(1, sampleIndex, seed);     // this random variable is for incident direction
 
 		brdf.generate(iRec.frame, outDir, incDir, seed, brdfColor);
 		incDir.normalize();
@@ -122,8 +125,6 @@ public abstract class PathTracer extends DirectIlluminationRenderer {
 			outColor.scale(Math.PI);
 		}
 
-		// Increment the recursion level
-		level += 1;
 	}
 }
 

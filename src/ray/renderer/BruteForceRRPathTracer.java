@@ -81,13 +81,17 @@ public class BruteForceRRPathTracer extends PathTracer {
 		if (rand.nextDouble() < survivalProbability)
 			return;
 
+		// Increment the recursion level
+		level += 1;
+
+
 		// Sample random incident direction
 		BRDF brdf = iRec.surface.getMaterial().getBRDF(iRec);
 		Color brdfColor = new Color();
 		Vector3 incDir = new Vector3();
 
 		Point2 seed = new Point2();
-		sampler.sample(level, sampleIndex, seed);     // this random variable is for incident direction
+		sampler.sample(1, sampleIndex, seed);     // this random variable is for incident direction
 
 		brdf.generate(iRec.frame, outDir, incDir, seed, brdfColor);
 		incDir.normalize();
@@ -148,8 +152,6 @@ public class BruteForceRRPathTracer extends PathTracer {
 			outColor.scale(brdfColor);
 			outColor.scale(Math.PI);
 			outColor.scale(1 / (1 - survivalProbability));
-			// Increment the recursion level
-			level += 1;
 		}
 
 	}
