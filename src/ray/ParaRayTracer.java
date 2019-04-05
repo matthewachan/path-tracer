@@ -78,8 +78,6 @@ public class ParaRayTracer {
         String inputFilename = args[ctr];
         String outputFilename = inputFilename + ".png";
 
-	if (args[1].equals("-o"))
-		outputFilename = args[2];
             
         // Parse the input file
         Scene scene = (Scene) parser.parse(inputFilename, Scene.class);
