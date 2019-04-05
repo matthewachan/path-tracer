@@ -138,7 +138,7 @@ public class BruteForceRRPathTracer extends PathTracer {
 
 			// Compute radiance indirectly emitted by surface
 			Color indirectRadiance = new Color();
-			gatherIllumination(scene, incDir, incRecord, sampler, sampleIndex, level, indirectRadiance);
+			gatherIlluminationRR(scene, incDir, incRecord, sampler, sampleIndex, level, indirectRadiance);
 
 
 			// Emitted radiance is the sum of direct and indirect radiance from incident direction

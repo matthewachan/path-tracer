@@ -69,6 +69,7 @@ public class ParaRayTracer {
             nThreads = Integer.parseInt(args[1]);
             ctr += 2;
         }
+
         
         executor = Executors.newFixedThreadPool(nThreads);
         System.out.println("Render with " + nThreads + " threads.");
@@ -76,6 +77,9 @@ public class ParaRayTracer {
         // Get the input/output filenames.
         String inputFilename = args[ctr];
         String outputFilename = inputFilename + ".png";
+
+	if (args[1].equals("-o"))
+		outputFilename = args[2];
             
         // Parse the input file
         Scene scene = (Scene) parser.parse(inputFilename, Scene.class);
